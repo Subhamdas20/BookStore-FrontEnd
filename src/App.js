@@ -8,7 +8,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Header from "./components/header/Header";
+
+import Dashboard from "./pages/displaybooks/Dashboard";
+
 
 function App() {
   return (
@@ -17,7 +19,7 @@ function App() {
     <Router>
     <Routes>
       <Route path="/" element={<Mainpage/>} />
-      <Route path="/dashboard" element={<Header/>} />
+      <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
     </Router>
 

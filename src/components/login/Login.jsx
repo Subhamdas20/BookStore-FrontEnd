@@ -32,8 +32,9 @@ function Login() {
                 "password" : textfieldvalues.password
             }
             UserService.login(data).then((data)=>{
-                console.log(data);
-                console.log("login sucess");
+                console.log(data.data.data.result.fullname);
+            localStorage.setItem("name" ,data.data.data.result.fullname )
+            localStorage.setItem("token",data.data.data.token)
             }).catch((err)=>{
                 
             })

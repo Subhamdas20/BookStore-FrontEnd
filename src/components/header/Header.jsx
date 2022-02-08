@@ -19,7 +19,7 @@ function Header() {
                     <div className='icon'>
                         <PermIdentityTwoToneIcon htmlColor="white"/>
                      </div>
-                     <div className='person'>Subham</div>
+                     <div className='person'>{localStorage.getItem("name")}</div>
                 </div>
                 <div className='details-cart'>
                     <div className=''>
