@@ -6,12 +6,12 @@ function Login() {
 
         <div className='login'>
             <div className='mail'>
-                <TextField className="emailfield" style={{ backgroundColor: 'white' }} type='text' id="outlined-email" label="Email Id" variant="outlined"
+                <TextField className="emailfield" style={{ backgroundColor: 'white' }} size="small" type='text' id="outlined-email" label="Email Id" variant="outlined"
                 />
             </div>
 
             <div>
-                <TextField className="passwordfield" style={{ backgroundColor: 'white' }} type='password' id="outlined-password" label="Password" variant="outlined"
+                <TextField className="passwordfield" style={{ backgroundColor: 'white' }} size="small" type='password' id="outlined-password" label="Password" variant="outlined"
                 />
             </div>
 
