@@ -1,7 +1,7 @@
 import React from "react";
 
 import Mainpage from "./pages/loginsignup/Loginsignup";
-
+ 
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,6 +11,8 @@ import {
 
 import Dashboard from "./pages/displaybooks/Dashboard";
 import Cart from "./pages/cart/Cart";
+import Checkout from "./pages/checkout/Checkout";
+import Wishlist from "./pages/wishlist/Wishlist";
 
 
 function App() {
@@ -22,6 +24,9 @@ function App() {
       <Route exact path="/" element={<Mainpage/>} />
       <Route path="/dashboard" element={<Dashboard/>} />
       <Route path="/cart" element={<Cart/>} />
+      <Route path="/checkout" element={<Checkout/>} />
+      <Route path="/wishlist" element={<Wishlist/>} />
+      
       </Routes>
     </Router>
     

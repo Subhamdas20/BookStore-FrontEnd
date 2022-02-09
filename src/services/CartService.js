@@ -16,4 +16,10 @@ export const CartService = {
     getcart: (data) => {
         return AxiosService.getallService(`${url}/get_cart_item`,header)
     },
+    deletecart: (data) => {
+        return AxiosService.deleteService(`${url}/remove_cart_item`,data,header)
+    },
+    updatecart: (data) => {
+        return AxiosService.updateService(`${url}/cart_item`,data,header)
+    },
 }

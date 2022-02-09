@@ -12,5 +12,11 @@ const AxiosService = {
     getallService: (url, header = false) => {
         return axios.get(url, header);
     },
+    deleteService: (url, data,header ) => {
+        return axios.delete(url,header,data);
+    },
+    updateService: (url, data,header ) => {
+        return axios.put(url,data,header);
+    },
 }
 export default AxiosService;

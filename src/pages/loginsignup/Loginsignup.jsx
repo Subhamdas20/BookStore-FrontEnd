@@ -17,7 +17,7 @@ function Mainpage() {
         setOptions(false)
        navigate('/signup')
     }
-    
+  
     return (<div>
         <div className='home-container'>
             <div className='left-image'>

@@ -2,8 +2,10 @@ import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 import './login.scss'
 import { UserService } from '../../services/UserService';
+import { useNavigate } from 'react-router';
 
 function Login() {
+    const navigate = useNavigate();
     const[textfieldvalues,setTextfieldvalues]= React.useState({
         emailId : "",
         password : "",
@@ -35,6 +37,7 @@ function Login() {
                 console.log(data.data.data.result.fullname);
             localStorage.setItem("name" ,data.data.data.result.fullname )
             localStorage.setItem("token",data.data.data.token)
+            navigate('/dashboard')
             }).catch((err)=>{
                 
             })

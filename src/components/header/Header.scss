@@ -34,7 +34,7 @@
         height: 50px;
         display: flex;
         flex-direction: column;
-        margin-left: 24%;
+        margin-left: 10%;
         padding-bottom: 3px;
        
         .person{
@@ -48,12 +48,31 @@
         height: 48px;
         display: flex;
         flex-direction: column;
-        margin-left: 5%;
+        margin-left: 5.5%;
         .cart{
             width: 36px;
             font-size: 13px;
             color : white;
         }
     }
+    .wishd{
+        width: 50px;
+        height: 48px;
+        margin-left: 5.5%;
+        .wishdetails{
+          
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 5%;
+            
+        }
+        .wish{
+            width: 36px;
+            font-size: 13px;
+            color : white;
+        }
+    }
+   
    
 }
