@@ -3,17 +3,21 @@ import './Mainpage.scss'
 import logo from '../../logo/logo.png'
 import Login from '../../components/login/Login';
 import Signup from '../../components/signup/Signup';
+import { useNavigate } from "react-router-dom";
 
 
 function Mainpage() {
+    const navigate = useNavigate();
     const [options, setOptions] = React.useState(true)
     const loginOptions = () => {
         setOptions(true)
+      //  navigate('/login')
     }
     const signupOptions =()=>{
         setOptions(false)
-        
+       // navigate('/signup')
     }
+    
 
     return (<div>
         <div className='home-container'>

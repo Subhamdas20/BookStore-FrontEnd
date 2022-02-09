@@ -5,13 +5,13 @@ import bookimage from '../../logo/book.png'
 import { CartService } from '../../services/CartService';
 import { wishlistService } from '../../services/WishlistService';
 
-function DisplayBook() {
+function DisplayBook(props) {
 
     const [books, setBooks] = React.useState([])
 
     React.useEffect(() => {
-
-        getBooks();
+    props.getCart()
+    getBooks();
     }, [])
 
 
@@ -19,21 +19,23 @@ function DisplayBook() {
     const getBooks = () => {
         ProductService.getAllproducts().then((result) => {
             setBooks(result.data)
-            console.log(books.data);
-
         }).catch(() => {
         })
     }
+
     const addCart = (book) => {
         let data = {
             "_id": book._id
         }
-
         CartService.addtocart(data).then((result) => {
             getBooks();
+            // CartService.getcart()
+            props.getCart()
+            
         }).catch(() => {
 
         })
+        
 
     }
     const wishlist = (book) => {
@@ -70,7 +72,6 @@ function DisplayBook() {
                                     <div >
                                         <img className="image" src={bookimage} ></img>
                                     </div>
-
                                 </div>
                                 <div className="content">
                                     <span className='book-name'>{book.bookName}</span><br></br>
@@ -82,25 +83,17 @@ function DisplayBook() {
                                     <div className="pricebook">
                                         <span className=''>Rs:- {book.price}</span>
                                     </div>
-
                                     <div className='order'>
-
                                         <button className='bag' onClick={() => { addCart(book) }}>ADD TO BAG</button>
                                         <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button>
-
                                     </div>
                                 </div>
                             </div>
                         })
                         :
                         ""
-
-
                 }
-
             </div>
-
-
         </>);
 }
 

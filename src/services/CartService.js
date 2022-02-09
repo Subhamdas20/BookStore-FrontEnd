@@ -13,5 +13,7 @@ export const CartService = {
     addtocart: (data) => {
         return AxiosService.postService(`${url}/add_cart_item`, data,header)
     },
-   
+    getcart: (data) => {
+        return AxiosService.getallService(`${url}/get_cart_item`,header)
+    },
 }
