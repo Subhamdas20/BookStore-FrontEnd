@@ -5,12 +5,25 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import education from '../../logo/education.png'
 import './Header.scss'
 
+import { useNavigate } from "react-router-dom";
+
+    
+
 function Header() {
+    const navigate = useNavigate();
+
+    const homepage=()=>{
+        
+    }
+
     return <>
         
             <div className='homePage'>
-                <img className='image' src={education} alt='this is book logo' />
+            
+            <img className='image' src={education} alt='this is book logo' onClick={homepage()}/>
                 <p className='imagetitle' >Bookstore</p>
+            
+                
                 <div className='searchbar'>
                     <SearchOutlinedIcon htmlColor="grey"/>
                     <input type='search' className='search' placeholder='Search...'></input>

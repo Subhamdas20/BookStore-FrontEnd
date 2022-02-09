@@ -1,6 +1,6 @@
 import React from "react";
 
-import Mainpage from "./pages/mainpage/Loginsignup";
+import Mainpage from "./pages/loginsignup/Loginsignup";
 
 import {
   BrowserRouter as Router,
@@ -22,8 +22,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
     </Router>
-
- 
+    
     </div>
   );
 }

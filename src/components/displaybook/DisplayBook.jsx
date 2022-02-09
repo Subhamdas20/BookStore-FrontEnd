@@ -2,21 +2,50 @@ import React from 'react';
 import { ProductService } from '../../services/ProductService';
 import './DisplayBook.scss'
 import bookimage from '../../logo/book.png'
+import { CartService } from '../../services/CartService';
+import { wishlistService } from '../../services/WishlistService';
+
 function DisplayBook() {
 
     const [books, setBooks] = React.useState([])
 
     React.useEffect(() => {
+
         getBooks();
     }, [])
+
+
 
     const getBooks = () => {
         ProductService.getAllproducts().then((result) => {
             setBooks(result.data)
             console.log(books.data);
-            console.log("inside");
+
         }).catch(() => {
         })
+    }
+    const addCart = (book) => {
+        let data = {
+            "_id": book._id
+        }
+
+        CartService.addtocart(data).then((result) => {
+            getBooks();
+        }).catch(() => {
+
+        })
+
+    }
+    const wishlist = (book) => {
+        let data = {
+            "_id": book._id
+        }
+        wishlistService.addtoWishlist(data).then(() => {
+            getBooks();
+        }).catch(() => {
+
+        })
+
     }
 
     return (
@@ -31,32 +60,46 @@ function DisplayBook() {
                     <option value="">Newest arrivals</option>
                 </select>
             </div>
+
             <div className='map-container'>
-            {
-                books.data.map((book, index) => {
-                    return <div className='books-display' >
-                        <div className="image-display" >
-                        <div >
-                        <img className="image" src={bookimage} ></img>
-                        </div>
-                            
-                        </div>
-                        <div className="content">
-                            <span className='book-name'>{book.bookName}</span><br></br>
-                            <span className='author'>By {book.author}</span>
-                            <div className="rate">
-                                <span className='rating'>4.5*  </span>
-                                <span className='text'> (20)</span>
+                {
+                    books.data ?
+                        books.data.map((book, index) => {
+                            return <div className='books-display' >
+                                <div className="image-display" >
+                                    <div >
+                                        <img className="image" src={bookimage} ></img>
+                                    </div>
+
+                                </div>
+                                <div className="content">
+                                    <span className='book-name'>{book.bookName}</span><br></br>
+                                    <span className='author'>By {book.author}</span>
+                                    <div className="rate">
+                                        <span className='rating'>4.5*  </span>
+                                        <span className='text'> (20)</span>
+                                    </div>
+                                    <div className="pricebook">
+                                        <span className=''>Rs:- {book.price}</span>
+                                    </div>
+
+                                    <div className='order'>
+
+                                        <button className='bag' onClick={() => { addCart(book) }}>ADD TO BAG</button>
+                                        <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div className="pricebook">
-                                <span className=''>Rs:- {book.price}</span>
-                            </div>
-                        </div>
-                    </div>
-                })
-            }
+                        })
+                        :
+                        ""
+
+
+                }
+
             </div>
-           
+
 
         </>);
 }
