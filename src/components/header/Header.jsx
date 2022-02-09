@@ -16,8 +16,10 @@ function Header(props) {
     const homepage = () => {
         navigate('/dashboard')
     }
+    const cart = ()=>{
+        navigate('/cart')
+    }
 
-    
     return <>
         <div className='homePage'>
             <img className='image' src={education} alt='this is book logo' onClick={()=>homepage()} />
@@ -32,7 +34,7 @@ function Header(props) {
                 </div>
                 <div className='person'>{localStorage.getItem("name")}</div>
             </div>
-            <div className='details-cart'>
+            <div className='details-cart' onClick={()=>cart()}>
                 <div className=''>
                     <Badge badgeContent={props.quantity} color="primary">
                         <ShoppingCartOutlinedIcon htmlColor="white" />

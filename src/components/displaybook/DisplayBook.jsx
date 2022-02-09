@@ -4,6 +4,7 @@ import './DisplayBook.scss'
 import bookimage from '../../logo/book.png'
 import { CartService } from '../../services/CartService';
 import { wishlistService } from '../../services/WishlistService';
+import { getButtonBaseUtilityClass } from '@mui/material';
 
 function DisplayBook(props) {
 
@@ -13,7 +14,6 @@ function DisplayBook(props) {
     props.getCart()
     getBooks();
     }, [])
-
 
 
     const getBooks = () => {
@@ -28,15 +28,12 @@ function DisplayBook(props) {
             "_id": book._id
         }
         CartService.addtocart(data).then((result) => {
-            getBooks();
-            // CartService.getcart()
+            getBooks(); 
             props.getCart()
             
         }).catch(() => {
-
         })
         
-
     }
     const wishlist = (book) => {
         let data = {
@@ -49,6 +46,7 @@ function DisplayBook(props) {
         })
 
     }
+   
 
     return (
         <>
@@ -63,7 +61,7 @@ function DisplayBook(props) {
                 </select>
             </div>
 
-            <div className='map-container'>
+            <div className='map-containers'>
                 {
                     books.data ?
                         books.data.map((book, index) => {
@@ -84,6 +82,7 @@ function DisplayBook(props) {
                                         <span className=''>Rs:- {book.price}</span>
                                     </div>
                                     <div className='order'>
+                                       
                                         <button className='bag' onClick={() => { addCart(book) }}>ADD TO BAG</button>
                                         <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button>
                                     </div>

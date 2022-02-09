@@ -26,14 +26,15 @@
         border-radius: 1px;
         text-align: right;
         margin-top: 2.3%;
-        margin-left: 66%;
+        margin-left: 63%;
     }
 }
-.map-container{
+.map-containers{
     display: flex;
     flex-wrap: wrap;
     margin-left: 5%;
-    margin-right: 8%;
+    
+    
     .books-display{
         display: flex;
         flex-direction: column;

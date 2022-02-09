@@ -3,12 +3,12 @@
     flex-direction: row;
     background-color: #A03037;
     width: 100%;
-    height: 60px;
+    height: 90px;
     align-items: center;
    
     .image{
-        width: 31px;
-        height: 24px;
+        width: 38px;
+        height: 32px;
         margin-left: 10%;
     }
     .imagetitle{
@@ -16,8 +16,8 @@
         margin-left: 1%;
     }
     .searchbar{
-        width: 490px;
-        height: 33px;
+        width: 530px;
+        height: 38px;
         background-color: white;
         display: flex;
         align-items: center;
@@ -30,8 +30,8 @@
         }
     }
     .details{
-        width: 40px;
-        height: 36px;
+        width: 50px;
+        height: 50px;
         display: flex;
         flex-direction: column;
         margin-left: 24%;
@@ -39,19 +39,19 @@
        
         .person{
             width: 36px;
-            font-size: 8px;
+            font-size: 13px;
             color : white;
         }
     }
     .details-cart{
-        width: 40px;
-        height: 36px;
+        width: 55px;
+        height: 48px;
         display: flex;
         flex-direction: column;
         margin-left: 5%;
         .cart{
             width: 36px;
-            font-size: 10px;
+            font-size: 13px;
             color : white;
         }
     }

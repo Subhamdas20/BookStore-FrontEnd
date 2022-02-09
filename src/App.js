@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 
 import Dashboard from "./pages/displaybooks/Dashboard";
+import Cart from "./pages/cart/Cart";
 
 
 function App() {
@@ -18,8 +19,9 @@ function App() {
    <div>
     <Router>
     <Routes>
-      <Route path="/" element={<Mainpage/>} />
+      <Route exact path="/" element={<Mainpage/>} />
       <Route path="/dashboard" element={<Dashboard/>} />
+      <Route path="/cart" element={<Cart/>} />
       </Routes>
     </Router>
     
