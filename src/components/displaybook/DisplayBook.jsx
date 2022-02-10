@@ -13,6 +13,7 @@ function DisplayBook(props) {
     React.useEffect(() => {
     props.getCart()
     getBooks();
+    props.getwishlist()
     }, [])
 
 
@@ -41,6 +42,7 @@ function DisplayBook(props) {
         }
         wishlistService.addtoWishlist(data).then(() => {
             getBooks();
+            props.getwishlist()
         }).catch(() => {
 
         })

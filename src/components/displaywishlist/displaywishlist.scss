@@ -1,0 +1,30 @@
+.displaywish-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    .wishlist-heading{
+        margin-left: 10%;
+        margin-top: 2%;
+        font-size: 16px;
+        font-weight: 600;
+        
+    }
+    .wishlist{
+        width: 774px;
+        height: auto;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #707070;
+        border-radius: 1px;
+        margin-left: 10%;
+        margin-top: 3%;
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 3%;
+        display: flex;
+        
+        .book-det{
+          margin-top: 2%;
+        }
+    }
+}

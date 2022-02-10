@@ -13,5 +13,8 @@ export const wishlistService = {
     addtoWishlist: (data) => {
         return AxiosService.postService(`${url}/add_wishlist_item`, data,header)
     },
+    getWishlist: (data) => {
+        return AxiosService.getallService(`${url}/get_wishlist_item`, header)
+    },
    
 }

@@ -13,7 +13,7 @@ const AxiosService = {
         return axios.get(url, header);
     },
     deleteService: (url, data,header ) => {
-        return axios.delete(url,header,data);
+        return axios.delete(url,{data:data},header);
     },
     updateService: (url, data,header ) => {
         return axios.put(url,data,header);

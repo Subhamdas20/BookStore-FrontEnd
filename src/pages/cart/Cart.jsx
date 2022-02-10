@@ -13,11 +13,8 @@ function Cart() {
     const getCart =()=>{
         
       CartService.getcart().then((result)=>{
-        var i=0;
-          result.data.data.map((data)=>{
-              i=i+data.quantity
-          })
-          setQuantity(i)
+      
+        setQuantity(result.data.data.length)
       }).catch(()=>{
   
       })

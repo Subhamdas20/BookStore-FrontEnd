@@ -46,6 +46,7 @@ function Displaycart(props) {
         setcontinuebutton(false)
         setCheckout(false)
     }
+    
     const removebook = (books) => {
         let data = {
             "product_id": books.product_id
