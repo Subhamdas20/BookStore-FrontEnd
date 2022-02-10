@@ -13,7 +13,6 @@ function DisplayWishList(props) {
         wishlistService.getWishlist().then((result) => {
             setWishlistitem(result.data.data)
         }).catch(() => {
-
         })
     }, [])
 
@@ -26,7 +25,6 @@ function DisplayWishList(props) {
             props.getwishlist()
         }).catch(() => {
         })
-
     }
     const remove = (book) => {
         let data = book.product_id;
