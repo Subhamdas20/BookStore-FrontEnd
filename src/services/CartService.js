@@ -22,4 +22,7 @@ export const CartService = {
     updatecart: (data) => {
         return AxiosService.updateService(`${url}/cart_item`,data,header)
     },
+    deleteallcart: (data) => {
+        return AxiosService.deleteService(`${url}/remove_cart_all_item`,data,header)
+    },
 }

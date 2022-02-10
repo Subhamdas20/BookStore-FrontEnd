@@ -11,11 +11,11 @@ function Mainpage() {
     const [options, setOptions] = React.useState(true)
     const loginOptions = () => {
         setOptions(true)
-       navigate('/login')
+    //    navigate('/login')
     }
     const signupOptions =()=>{
         setOptions(false)
-       navigate('/signup')
+    //    navigate('/signup')
     }
   
     return (<div>

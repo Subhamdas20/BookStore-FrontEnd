@@ -9,13 +9,9 @@ function Dashboard() {
 
   const [quantity,setQuantity]=React.useState(0)
   const [wishquantity,setWishquantity]=React.useState(0)
+  
   const getCart =()=>{
     CartService.getcart().then((result)=>{
-    //   var i=0;
-    //     result.data.data.map((data)=>{
-    //         i=i+data.quantity
-    //     })
-    //     setQuantity(i)
     console.log(result.data.data.length,"length")
         setQuantity(result.data.data.length)
     }).catch(()=>{
@@ -23,14 +19,13 @@ function Dashboard() {
     })
 }
 const getwishlist =()=>{
-        
   wishlistService.getWishlist().then((result)=>{
   var i=0;
     result.data.data.map((data)=>{
         i=i+data.quantity
     })
     setWishquantity(i)
-  
+
 }).catch(()=>{
 
 })

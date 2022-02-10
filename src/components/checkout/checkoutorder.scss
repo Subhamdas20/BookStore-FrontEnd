@@ -7,12 +7,21 @@
     align-items: center;
     .image{
         width: 170px;
-        height: 225px;
+        height: 140px;
         margin-top: 2%;
+    }
+    .image2{
+        width: 170px;
+        height: 140px;
+        margin-top: 2%;
+        margin-left:6%;
     }
     .message{
         width: 354px;
         height: 66px;
+    }
+    .order-msg{
+        font: normal normal bold 25px/30px Lato;
     }
     .information{
         margin-top: 2%;

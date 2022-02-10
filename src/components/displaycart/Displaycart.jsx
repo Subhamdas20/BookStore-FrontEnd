@@ -29,7 +29,7 @@ function Displaycart(props) {
         landmark: "",
         address: ""
     })
-    const [continuebutton,setcontinuebutton]=React.useState(true)
+    const [continuebutton, setcontinuebutton] = React.useState(true)
 
     React.useEffect(() => {
         CartService.getcart().then((result) => {
@@ -46,14 +46,15 @@ function Displaycart(props) {
         setcontinuebutton(false)
         setCheckout(false)
     }
-    
-    const removebook = (books) => {
-        let data = {
-            "product_id": books.product_id
-        }
-        // console.log(books.product_id)
-        CartService.deletecart(data).then(() => {
 
+    const removebook = (books) => {
+        let data = books.product_id;
+        CartService.deletecart(data).then(() => {
+            CartService.getcart().then((result) => {
+                setCart(result.data.data)
+            }).catch(() => {
+
+            })
         }).catch(() => {
 
         })
@@ -66,8 +67,6 @@ function Displaycart(props) {
             "quantity": book.quantity - 1
         }
         CartService.updatecart(data).then(() => {
-            // console.log("inside update")
-
             CartService.getcart().then((result) => {
                 setCart(result.data.data)
             }).catch(() => {
@@ -91,21 +90,18 @@ function Displaycart(props) {
             }).catch(() => {
             })
             props.getCart()
-
         }).catch(() => {
-
         })
     }
     const changefield = (e) => {
         setFields(previousvalues => {
             return { ...previousvalues, [e.target.name]: e.target.value }
         })
-        // console.log(fields);
     }
     const addDetails = () => {
         let data = {
             "city": fields.city,
-            "fullname":fields.fullname ,
+            "fullname": fields.fullname,
             "mobilenumber": fields.mobilenumber,
             "pincode": fields.pincode,
             "locality": fields.locality,
@@ -118,12 +114,17 @@ function Displaycart(props) {
 
         })
     }
-  
-    const callfunctions=()=>{
+
+    const callfunctions = () => {
         addDetails()
         orderSummary()
     }
-    const checkoutorder=()=>{
+    const checkoutorder = () => {
+        CartService.deleteallcart().then(()=>{
+            
+        }).catch(()=>{
+
+        })
         navigate('/checkout')
     }
     return (
@@ -210,12 +211,12 @@ function Displaycart(props) {
 
                                     </RadioGroup>
                                 </FormControl>
-                               
+
                             </div>
                             {
-                                continuebutton ? <button className='continue-button' onClick={()=>callfunctions()} >Continue</button>
+                                continuebutton ? <button className='continue-button' onClick={() => callfunctions()} >Continue</button>
                                     : ""
-                                }
+                            }
                         </div>
 
                     </div>
@@ -249,7 +250,7 @@ function Displaycart(props) {
                             })
 
                         }
-                        <button className='checkout-button' onClick={()=>checkoutorder()}>checkout</button>
+                        <button className='checkout-button' onClick={() => checkoutorder()}>checkout</button>
                     </div>
             }
 

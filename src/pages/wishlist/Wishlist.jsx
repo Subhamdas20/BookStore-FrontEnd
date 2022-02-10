@@ -1,5 +1,6 @@
 import React from 'react'
 import DisplayWishList from '../../components/displaywishlist/DisplayWishList'
+import Footer from '../../components/footer/Footer'
 import Header from '../../components/header/Header'
 import { CartService } from '../../services/CartService'
 import { wishlistService } from '../../services/WishlistService'
@@ -11,38 +12,32 @@ function Wishlist() {
     React.useEffect(()=>{
         getCart()
         getwishlist()
+     
     },[])
 
     const getwishlist =()=>{
-        
         wishlistService.getWishlist().then((result)=>{
         var i=0;
           result.data.data.map((data)=>{
               i=i+data.quantity
           })
           setWishquantity(i)
-        
       }).catch(()=>{
   
       })
   }
   const getCart =()=>{
     CartService.getcart().then((result)=>{
-    //   var j=0;
-    //     result.data.data.map((data)=>{
-    //         j=j+data.quantity
-    //     })
-    //     setQuantity(j)
-        setQuantity(result.length)
-        
+        setQuantity(result.data.data.length)
     }).catch(()=>{
 
     })
 }
   return (
     <div>
-    <Header wishquantity={wishquantity} quantity={quantity}/>
-    <DisplayWishList wishquantity={wishquantity} />
+    <Header quantity={quantity} wishquantity={wishquantity}/>
+    <DisplayWishList getwishlist={getwishlist} getCart={getCart} wishquantity={wishquantity} />
+    <Footer/>
     </div>
   )
 }

@@ -16,5 +16,7 @@ export const wishlistService = {
     getWishlist: (data) => {
         return AxiosService.getallService(`${url}/get_wishlist_item`, header)
     },
-   
+    removeWishlist : (data) => {
+        return AxiosService.deleteService(`${url}/remove_wishlist_item/${data}`,data, header)
+    },
 }
