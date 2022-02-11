@@ -39,8 +39,8 @@ function Header(props) {
             </div>
             <div className='wishd' onClick={() => wish()}>
                 <div className='wishdetails'>
-                    <div>
-                        <Badge badgeContent={props.wishquantity} color="primary">
+                    <div >
+                        <Badge badgeContent={props.wishquantity} color="primary" sx={{color:"#ffffff"},{background:"#A03037"}}>
                             <FavoriteBorderOutlinedIcon htmlColor="white" />
                         </Badge>
                     </div>

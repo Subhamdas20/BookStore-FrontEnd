@@ -10,10 +10,6 @@ function DisplayBook(props) {
 
     const [books, setBooks] = React.useState([])
 
-    // const [btn, setBtn] = React.useState(false)
-
-    // const [cartitem , setCartitem] = React.useState(true)
-
     React.useEffect(() => {
         props.getCart()
         getBooks();
@@ -23,14 +19,12 @@ function DisplayBook(props) {
 
     const getBooks = () => {
         ProductService.getAllproducts().then((result) => {
-            
             setBooks(result.data)
         }).catch(() => {
         })
     }
 
     const addCart = (book) => {
-        
         let data = {
             "_id": book._id
         }
@@ -55,7 +49,6 @@ function DisplayBook(props) {
 
     }
     const buttons = (book) => {
-      
         let butn=''
         const obj = (props.cart).find((data)=>data.bookName===book.bookName)
         const wishl= (props.wishlist).find((data)=>data.bookName===book.bookName)
@@ -66,16 +59,14 @@ function DisplayBook(props) {
             </button>
         }
         else if(wishl){
-            butn =  <button className='already-cart'>
+            butn =  <button className='already-wishlist'>
             Added to wishlist
             </button>
         }
         else{
             butn = <div className='buttn-grp'><button className='bag' onClick={() => { addCart(book) }}>ADD TO BAG</button>
-                        <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button></div>
+                    <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button></div>
         }
-           
-
         return butn
     }
 
@@ -83,7 +74,10 @@ function DisplayBook(props) {
         <>
             <div className='book-containers'>
                 <p className="books">Books </p>
-                <p className="item"> (128 items)</p>
+                {
+                    books.data ? <p className="item"> ({books.data.length})</p> : ""
+                }
+                
                 <select name="sort by relevance" className="price">
                     <option value="">Sort by relevance</option>
                     <option value="">Price:Low to high</option>
@@ -114,12 +108,8 @@ function DisplayBook(props) {
                                     </div>
                                     <div className='order'>
                                         {
-                                        
-                                            buttons(book)
-                                          
+                                        buttons(book)
                                        }
-                                        {/* <button className='bag' onClick={() => { addCart(book) }}>ADD TO BAG</button>
-                                        <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button> */}
                                     </div>
                                 </div>
                             </div>

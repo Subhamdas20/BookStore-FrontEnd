@@ -1,5 +1,6 @@
 .displaywish-container{
     width: 100%;
+    min-height: 545px;
     display: flex;
     flex-direction: column;
     
@@ -32,10 +33,12 @@
         .book-detail{
             display: flex;
             flex-direction: column;
-            width: 250px;
+            // width: 250px;
+            width: 100%;
             margin-bottom: 5%;
             .book--name{
-                width: 150px;
+                // width: 150px;
+                width: 100%;
                 margin-left: 5%;
                 font-size: 15px;
                 
@@ -52,7 +55,8 @@
 .btn{
     display: flex;
     width: 100%;
-   margin-top: 5%;
+   margin-top: 1%;
+   margin-left: 60%;
     .remove-wish{
         margin-left: 50%;
         background-color: #FFFFFF;

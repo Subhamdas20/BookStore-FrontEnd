@@ -9,6 +9,8 @@ import { wishlistService } from '../../services/WishlistService'
 function Wishlist() {
     const [quantity,setQuantity]=React.useState(0)
     const [wishquantity,setWishquantity]=React.useState(0)
+
+  const[wishlist,setWishlist]= React.useState([])
     React.useEffect(()=>{
         getCart()
         getwishlist()
@@ -17,11 +19,8 @@ function Wishlist() {
 
     const getwishlist =()=>{
         wishlistService.getWishlist().then((result)=>{
-        var i=0;
-          result.data.data.map((data)=>{
-              i=i+data.quantity
-          })
-          setWishquantity(i)
+          setWishquantity(result.data.data.length)
+          setWishlist(result.data.data)
       }).catch(()=>{
   
       })
@@ -36,7 +35,7 @@ function Wishlist() {
   return (
     <div>
     <Header quantity={quantity} wishquantity={wishquantity}/>
-    <DisplayWishList getwishlist={getwishlist} getCart={getCart} wishquantity={wishquantity} />
+    <DisplayWishList wishlist={wishlist} getwishlist={getwishlist} getCart={getCart} wishquantity={wishquantity} />
     <Footer/>
     </div>
   )

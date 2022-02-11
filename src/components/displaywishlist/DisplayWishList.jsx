@@ -7,13 +7,8 @@ import Wishlist from '../../pages/wishlist/Wishlist'
 
 function DisplayWishList(props) {
 
-    const [wishlistitem, setWishlistitem] = React.useState()
-
     React.useEffect(() => {
-        wishlistService.getWishlist().then((result) => {
-            setWishlistitem(result.data.data)
-        }).catch(() => {
-        })
+        props.getwishlist()
     }, [])
 
     const addtocart = (data) => {
@@ -29,19 +24,12 @@ function DisplayWishList(props) {
     const remove = (book) => {
         let data = book.product_id;
         wishlistService.removeWishlist(data).then(() => {
-            wishlistService.getWishlist().then((result) => {
-                setWishlistitem(result.data.data)
-                props.getCart()
-                props.getwishlist()
-            }).catch(() => {
-    
-            })
-
+            props.getCart()
+            props.getwishlist()
         }).catch(() => {
-
-        })  
+        })
     }
-    const addremove =(data)=>{
+    const addremove = (data) => {
         addtocart(data)
         remove(data)
     }
@@ -54,8 +42,8 @@ function DisplayWishList(props) {
                 <div className='wishlist'>
                     Wishlist({props.wishquantity})
                     {
-                        wishlistitem ?
-                            wishlistitem.map((data) => {
+                        props.wishlist ?
+                        props.wishlist.map((data) => {
                                 return <div className='book-detail'>
                                     <div className='book-det'>
                                         <img className="img" src={bookimage} ></img>
@@ -64,12 +52,13 @@ function DisplayWishList(props) {
                                             <div className='author--name'>
                                                 {data.author}
                                             </div>
+                                            <div className='btn'>
+                                                <div><button className='addcart-btn' onClick={() => { addremove(data) }}>Add TO Cart</button></div>
+                                                <div><button className='remove-wish' onClick={() => { remove(data) }}>Remove</button></div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className='btn'>
-                                        <div><button className='addcart-btn' onClick={() => { addremove(data) }}>Add TO Cart</button></div>
-                                        <div><button className='remove-wish' onClick={() => { remove(data) }}>Remove</button></div>
-                                    </div>
+
                                 </div>
                             })
                             : ""
