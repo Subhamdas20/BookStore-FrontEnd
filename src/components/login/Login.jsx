@@ -34,12 +34,14 @@ function Login() {
                 "password" : textfieldvalues.password
             }
             UserService.login(data).then((data)=>{
-                console.log(data.data.data.result.fullname);
             localStorage.setItem("name" ,data.data.data.result.fullname )
             localStorage.setItem("token",data.data.data.token)
+
+
+
+
             navigate('/dashboard')
             }).catch((err)=>{
-                
             })
         }
     }

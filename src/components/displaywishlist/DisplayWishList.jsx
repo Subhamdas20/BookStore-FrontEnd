@@ -4,8 +4,16 @@ import './displaywishlist.scss'
 import bookimage from '../../logo/book.png'
 import { CartService } from '../../services/CartService'
 import Wishlist from '../../pages/wishlist/Wishlist'
+import {stateContext} from '../../App'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 function DisplayWishList(props) {
+    // const {quantity,wishquantity,cart,wishlist}=React.useContext(stateContext)
+    // const [quantityy,setQuantity]=quantity
+    // const [wishquantityy,setWishquantity]=wishquantity
+    // const [carty, setCart]=cart
+    // const [wishlisty,setWishlist]=wishlist
 
     React.useEffect(() => {
         props.getwishlist()
@@ -24,6 +32,7 @@ function DisplayWishList(props) {
     const remove = (book) => {
         let data = book.product_id;
         wishlistService.removeWishlist(data).then(() => {
+         
             props.getCart()
             props.getwishlist()
         }).catch(() => {
@@ -40,7 +49,10 @@ function DisplayWishList(props) {
                     My Wishlist
                 </div>
                 <div className='wishlist'>
-                    Wishlist({props.wishquantity})
+                <div className='wish-head'>
+                Wishlist({props.wishquantity})
+                </div>
+                    
                     {
                         props.wishlist ?
                         props.wishlist.map((data) => {
@@ -52,11 +64,15 @@ function DisplayWishList(props) {
                                             <div className='author--name'>
                                                 {data.author}
                                             </div>
-                                            <div className='btn'>
-                                                <div><button className='addcart-btn' onClick={() => { addremove(data) }}>Add TO Cart</button></div>
-                                                <div><button className='remove-wish' onClick={() => { remove(data) }}>Remove</button></div>
                                             </div>
-                                        </div>
+                                            <div className='btn'>
+                                                <div><button className='addcart-btn' onClick={() => { addremove(data) }}>
+                                                <ShoppingCartOutlinedIcon  />
+                                                </button></div>
+                                                <div><button className='remove-wish' onClick={() => { remove(data) }}>
+                                                <DeleteOutlinedIcon/></button></div>
+                                            </div>
+                                        
                                     </div>
 
                                 </div>

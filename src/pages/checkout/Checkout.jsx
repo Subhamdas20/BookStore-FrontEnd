@@ -18,7 +18,7 @@ function Checkout() {
         result.data.data.map((data)=>{
             i=i+data.quantity
         })
-        setWishquantity(i)
+        setWishquantity(result.data.data.length)
     }).catch(()=>{
 
     })

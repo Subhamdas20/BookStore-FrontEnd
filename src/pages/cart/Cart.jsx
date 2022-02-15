@@ -6,10 +6,11 @@ import { CartService } from '../../services/CartService'
 import { wishlistService } from '../../services/WishlistService'
 
 function Cart() {
+  
     const [quantity,setQuantity]=React.useState(0)
     const [wishquantity,setWishquantity]=React.useState(0)
     const [cart, setCart] = React.useState([])
-
+    const[wishlist,setWishlist]= React.useState([])
     React.useEffect(()=>{
         getCart()
         getwishlist()
@@ -24,11 +25,7 @@ function Cart() {
   }
   const getwishlist =()=>{
     wishlistService.getWishlist().then((result)=>{
-    var i=0;
-      result.data.data.map((data)=>{
-          i=i+data.quantity
-      })
-      setWishquantity(i)
+      setWishquantity(result.data.data.length)
   }).catch(()=>{
 
   })

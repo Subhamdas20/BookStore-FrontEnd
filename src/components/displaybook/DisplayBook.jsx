@@ -5,11 +5,12 @@ import bookimage from '../../logo/book.png'
 import { CartService } from '../../services/CartService';
 import { wishlistService } from '../../services/WishlistService';
 import { buttonClasses, getButtonBaseUtilityClass } from '@mui/material';
-
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 function DisplayBook(props) {
 
     const [books, setBooks] = React.useState([])
-
+    const [msg,setMsg]=React.useState()
     React.useEffect(() => {
         props.getCart()
         getBooks();
@@ -31,6 +32,7 @@ function DisplayBook(props) {
         CartService.addtocart(data).then((result) => {
             getBooks();
             props.getCart()
+            setMsg(true)
 
         }).catch(() => {
         })
@@ -41,34 +43,87 @@ function DisplayBook(props) {
             "_id": book._id
         }
         wishlistService.addtoWishlist(data).then(() => {
+
             getBooks();
             props.getwishlist()
+            setMsg(false)
         }).catch(() => {
 
         })
 
     }
     const buttons = (book) => {
-        let butn=''
-        const obj = (props.cart).find((data)=>data.bookName===book.bookName)
-        const wishl= (props.wishlist).find((data)=>data.bookName===book.bookName)
-        
-        if(obj){
-            butn =  <button className='already-cart'>
-            Added to cart
+        let butn = ''
+        const obj = (props.cart).find((data) => data.bookName === book.bookName)
+        const wishl = (props.wishlist).find((data) => data.bookName === book.bookName)
+
+        if (obj) {
+            butn = <button className='already-cart'>
+                Added to cart
             </button>
         }
-        else if(wishl){
-            butn =  <button className='already-wishlist'>
-            Added to wishlist
+        else if (wishl) {
+            butn = <button className='already-wishlist'>
+                Added to wishlist
             </button>
         }
-        else{
-            butn = <div className='buttn-grp'><button className='bag' onClick={() => { addCart(book) }}>ADD TO BAG</button>
-                    <button className='wishlist' onClick={() => { wishlist(book) }} >WISHLIST</button></div>
+        else {
+         
+            butn = <div className='buttn-grp'>
+            
+            <div   onClick={() => { addCart(book) }}>
+            
+            {/* <div onClick={() => { wishlist(book) }} > */}
+                    <React.Fragment>
+                        <Button className='cart-btn'
+                            sx={{fontSize:"10px"}}
+                            onClick={handleClick({
+                                vertical: 'bottom',
+                                horizontal: 'right'
+                            })}
+                        >
+                        Add to Cart
+                        </Button>
+                    </React.Fragment>
+                {/* </div> */}
+            </div>
+
+                <div onClick={() => { wishlist(book) }} >
+                    <React.Fragment>
+                        <Button className='wishlist'
+                            onClick={handleClick({
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            })}
+                        >
+                            WISHLIST
+                        </Button>
+                    </React.Fragment>
+                   
+                </div>
+                </div>
+              
+
         }
         return butn
     }
+
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+
+    const { vertical, horizontal, open } = state;
+
+    const handleClick = (newState) => () => {
+        setState({ open: true, ...newState });
+    };
+
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
+
 
     return (
         <>
@@ -77,7 +132,7 @@ function DisplayBook(props) {
                 {
                     books.data ? <p className="item"> ({books.data.length})</p> : ""
                 }
-                
+
                 <select name="sort by relevance" className="price">
                     <option value="">Sort by relevance</option>
                     <option value="">Price:Low to high</option>
@@ -106,17 +161,27 @@ function DisplayBook(props) {
                                     <div className="pricebook">
                                         <span className=''>Rs:- {book.price}</span>
                                     </div>
-                                    <div className='order'>
+                                    {/* <div className='order'> */}
                                         {
-                                        buttons(book)
-                                       }
-                                    </div>
+                                            buttons(book)
+                                        }
+                                    {/* </div> */}
                                 </div>
                             </div>
                         })
                         :
                         ""
                 }
+                <div>
+
+                </div>
+                <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={open}
+                        onClose={handleClose}
+                        message={msg ? "Added to Cart" : "Added to Wishlist"}
+                        key={vertical + horizontal}
+                    />
             </div>
         </>);
 }

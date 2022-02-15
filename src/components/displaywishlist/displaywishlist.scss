@@ -21,14 +21,23 @@
         margin-top: 3%;
         font-size: 16px;
         font-weight: 600;
-        padding-left: 3%;
+       
         display: flex;
         flex-direction: column;
         margin-bottom: 5%;
-        
+        .wish-head{
+            background: #F5F5F5;
+            height: 40px;
+            border: 1px solid #E4E4E4;
+            display: flex;
+            align-items: center;
+            padding-left: 5%;
+        }
         .book-det{
           margin-top: 2%;
           display: flex;
+          padding-left: 5%;
+          width: 40%;
         }
         .book-detail{
             display: flex;
@@ -44,7 +53,7 @@
                 
                 .author--name{
                     font-size: 12px;
-                    margin-top: 5%;
+                    margin-top: 1.5%;
                 }
             }
             
@@ -54,20 +63,23 @@
 }
 .btn{
     display: flex;
-    width: 100%;
-   margin-top: 1%;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+ 
    margin-left: 60%;
     .remove-wish{
         margin-left: 50%;
         background-color: #FFFFFF;
-        border-color: #707070;
+        border:none;
         height: 30px;
-        border-radius: 4px;
+        color: grey;
+        
     }
     .addcart-btn{
         height: 30px;
-        background-color: brown;
-        color: #FFFFFF;
+        background-color: #FFFFFF;
+        color: grey;
         border: none;
         border-radius: 3px;
 

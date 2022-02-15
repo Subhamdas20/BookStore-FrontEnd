@@ -16,11 +16,10 @@ import { Customerdetails } from '../../services/Customerdetails';
 import { useNavigate } from 'react-router';
 function Displaycart(props) {
     const navigate = useNavigate();
-    const [cart, setCart] = React.useState([])
+    // const [cart, setCart] = React.useState([])
     const [orderbutton, setOrderbutton] = React.useState(true)
     const [checkout, setCheckout] = React.useState(true)
     const [fields, setFields] = React.useState({
-
         city: "",
         fullname: "",
         mobilenumber: "",
@@ -30,11 +29,9 @@ function Displaycart(props) {
         address: ""
     })
     const [continuebutton, setcontinuebutton] = React.useState(true)
-
     React.useEffect(() => {
         props.getCart()
     }, [])
-
     const changebutton = () => {
         setOrderbutton(false)
     }
@@ -48,7 +45,6 @@ function Displaycart(props) {
         CartService.deletecart(data).then(() => {
             props.getCart()
         }).catch(() => {
-
         })
 
     }
@@ -90,7 +86,7 @@ function Displaycart(props) {
             "address": fields.address
         }
         Customerdetails.addcustomerdetails(data).then(() => {
-            console.log("inside");
+     
         }).catch(() => {
 
         })
@@ -102,20 +98,15 @@ function Displaycart(props) {
     }
     const checkoutorder = () => {
         CartService.deleteallcart().then(() => {
-
         }).catch(() => {
-
         })
         navigate('/checkout')
     }
     return (
         <>
             <div className='maincart-container'>
-
-
                 <h3 className='heading'>Home/ My cart</h3>
                 <div className='cart-container'>
-
                     <h3 className='my-cart'>My Cart({props.quantity})</h3>
                     {
                         props.cart.map((books) => {
@@ -141,7 +132,6 @@ function Displaycart(props) {
                         orderbutton ? <button className='button-order' onClick={() => { changebutton() }}>Place order</button>
                             : ""
                     }
-
                 </div>
                 {
                     orderbutton ? <div className='customer-details'>
@@ -218,7 +208,7 @@ function Displaycart(props) {
                         <div className='order-details'>
                             <div className='inside-orderdetails'>Order Summary</div>
                             {
-                                cart.map((books) => {
+                                props.cart.map((books) => {
                                     return <div >
                                         <div className='content-containers'>
                                             <div className='image-carts'><img src={book} alt="image" style={{ height: "105px" }, { width: "100 px" }} /></div>

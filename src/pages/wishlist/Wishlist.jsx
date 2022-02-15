@@ -9,8 +9,9 @@ import { wishlistService } from '../../services/WishlistService'
 function Wishlist() {
     const [quantity,setQuantity]=React.useState(0)
     const [wishquantity,setWishquantity]=React.useState(0)
+    const[wishlist,setWishlist]= React.useState([])
+    const [cart, setCart] = React.useState([])
 
-  const[wishlist,setWishlist]= React.useState([])
     React.useEffect(()=>{
         getCart()
         getwishlist()
