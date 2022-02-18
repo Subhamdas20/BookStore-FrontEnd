@@ -10,73 +10,43 @@ import Snackbar from '@mui/material/Snackbar';
 
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-function DisplayBook(props) {
+import { useSelector, useDispatch } from 'react-redux'
+import { getbooks } from '../../store/actions';
 
-    const [books, setBooks] = React.useState([])
+function DisplayBook(props) {
     const [msg, setMsg] = React.useState()
-    
-    // const [currentPage,setcurrentPage]= React.useState(1)
-    // const [todosPerPage,setTodosPerPage]= React.useState(3)
     React.useEffect(() => {
         props.getCart()
-        getBooks();
+       
         props.getwishlist()
-        
+        getBooksData()
+
     }, [])
-
-    // const indexOfLastTodo = currentPage * todosPerPage;
-    // const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-    // const currentTodos = books.data.slice(indexOfFirstTodo, indexOfLastTodo);
-
-    // const renderTodos = currentTodos.map((todo, index) => {
-    //     return <li key={index}>{todo}</li>;
-    //   });
-
-
-    //  const usePagination = ({
-    //     totalCount,
-    //     pageSize,
-    //     siblingCount = 1,
-    //     currentPage
-    //   }) => {
-    //     const paginationRange = React.useMemo(() => {
-    //        // Our implementation logic will go here 
-    //        const totalPageCount = Math.ceil(totalCount / pageSize);
-            
-    //     }, [totalCount, pageSize, siblingCount, currentPage]);
-      
-    //     return paginationRange;
-    //   };
-      
-
-
-    const getBooks = () => {
-        ProductService.getAllproducts().then((result) => {
-            setBooks(result.data)
+    const dispatch = useDispatch()
+    const getBooksData = async () => {
+        ProductService.getAllproducts().then((res) => {
+            dispatch(getbooks(res.data.data))
         }).catch(() => {
         })
     }
+    const mybooks = useSelector((state) => state.getbook)
 
     const addCart = (book) => {
         let data = {
             "_id": book._id
         }
         CartService.addtocart(data).then((result) => {
-            getBooks();
             props.getCart()
             setMsg(true)
-
         }).catch(() => {
         })
-
+        console.log(mybooks.books)
     }
     const wishlist = (book) => {
         let data = {
             "_id": book._id
         }
         wishlistService.addtoWishlist(data).then(() => {
-
-            getBooks();
             props.getwishlist()
             setMsg(false)
         }).catch(() => {
@@ -162,7 +132,7 @@ function DisplayBook(props) {
             <div className='book-containers'>
                 <p className="books">Books </p>
                 {
-                    books.data ? <p className="item"> ({books.data.length})</p> : ""
+                    mybooks.books ? <p className="item"> ({mybooks.books.length})</p> : ""
                 }
 
                 <select name="sort by relevance" className="price">
@@ -175,8 +145,8 @@ function DisplayBook(props) {
 
             <div className='map-containers'>
                 {
-                    books.data ?
-                        books.data.map((book, index) => {
+                    mybooks.books ?
+                        mybooks.books.map((book, index) => {
                             return <div className='books-display' >
                                 <div className="image-display" >
                                     <div >
