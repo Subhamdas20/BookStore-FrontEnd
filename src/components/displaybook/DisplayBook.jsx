@@ -7,15 +7,47 @@ import { wishlistService } from '../../services/WishlistService';
 import { buttonClasses, getButtonBaseUtilityClass } from '@mui/material';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
+
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 function DisplayBook(props) {
 
     const [books, setBooks] = React.useState([])
-    const [msg,setMsg]=React.useState()
+    const [msg, setMsg] = React.useState()
+    
+    // const [currentPage,setcurrentPage]= React.useState(1)
+    // const [todosPerPage,setTodosPerPage]= React.useState(3)
     React.useEffect(() => {
         props.getCart()
         getBooks();
         props.getwishlist()
+        
     }, [])
+
+    // const indexOfLastTodo = currentPage * todosPerPage;
+    // const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+    // const currentTodos = books.data.slice(indexOfFirstTodo, indexOfLastTodo);
+
+    // const renderTodos = currentTodos.map((todo, index) => {
+    //     return <li key={index}>{todo}</li>;
+    //   });
+
+
+    //  const usePagination = ({
+    //     totalCount,
+    //     pageSize,
+    //     siblingCount = 1,
+    //     currentPage
+    //   }) => {
+    //     const paginationRange = React.useMemo(() => {
+    //        // Our implementation logic will go here 
+    //        const totalPageCount = Math.ceil(totalCount / pageSize);
+            
+    //     }, [totalCount, pageSize, siblingCount, currentPage]);
+      
+    //     return paginationRange;
+    //   };
+      
 
 
     const getBooks = () => {
@@ -68,25 +100,25 @@ function DisplayBook(props) {
             </button>
         }
         else {
-         
+
             butn = <div className='buttn-grp'>
-            
-            <div   onClick={() => { addCart(book) }}>
-            
-            {/* <div onClick={() => { wishlist(book) }} > */}
+
+                <div onClick={() => { addCart(book) }}>
+
+                    {/* <div onClick={() => { wishlist(book) }} > */}
                     <React.Fragment>
                         <Button className='cart-btn'
-                            sx={{fontSize:"10px"}}
+                            sx={{ fontSize: "10px" }}
                             onClick={handleClick({
                                 vertical: 'bottom',
                                 horizontal: 'right'
                             })}
                         >
-                        Add to Cart
+                            Add to Cart
                         </Button>
                     </React.Fragment>
-                {/* </div> */}
-            </div>
+                    {/* </div> */}
+                </div>
 
                 <div onClick={() => { wishlist(book) }} >
                     <React.Fragment>
@@ -99,10 +131,10 @@ function DisplayBook(props) {
                             WISHLIST
                         </Button>
                     </React.Fragment>
-                   
+
                 </div>
-                </div>
-              
+            </div>
+
 
         }
         return butn
@@ -161,27 +193,35 @@ function DisplayBook(props) {
                                     <div className="pricebook">
                                         <span className=''>Rs:- {book.price}</span>
                                     </div>
-                                    {/* <div className='order'> */}
-                                        {
-                                            buttons(book)
-                                        }
-                                    {/* </div> */}
+
+                                    {
+                                        buttons(book)
+                                    }
+
                                 </div>
                             </div>
                         })
                         :
                         ""
+
                 }
                 <div>
 
+
+
                 </div>
                 <Snackbar
-                        anchorOrigin={{ vertical, horizontal }}
-                        open={open}
-                        onClose={handleClose}
-                        message={msg ? "Added to Cart" : "Added to Wishlist"}
-                        key={vertical + horizontal}
-                    />
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    onClose={handleClose}
+                    message={msg ? "Added to Cart" : "Added to Wishlist"}
+                    key={vertical + horizontal}
+                />
+            </div>
+            <div className='paginationg'>
+                <Stack spacing={2}>
+                    <Pagination count={10} />
+                </Stack>
             </div>
         </>);
 }
