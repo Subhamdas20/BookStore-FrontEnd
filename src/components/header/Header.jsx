@@ -23,6 +23,7 @@ function Header(props) {
         navigate('/wishlist')
     }
     const getMyCart = useSelector((state) => state.getCartItem)
+    const getMyWishList = useSelector((state) => state.getwishlistItem)
     return <>
         <div className='homePage'>
             <img className='image' src={education} alt='this is book logo' onClick={() => homepage()} />
@@ -40,9 +41,10 @@ function Header(props) {
             <div className='wishd' onClick={() => wish()}>
                 <div className='wishdetails'>
                     <div >
-                        <Badge badgeContent={props.wishquantity} color="primary" sx={{color:"#ffffff"},{background:"#A03037"}}>
+                   { getMyWishList.books?<Badge badgeContent={getMyWishList.books.length} color="primary" sx={{color:"#ffffff"},{background:"#A03037"}}>
                             <FavoriteBorderOutlinedIcon htmlColor="white" />
                         </Badge>
+                        :""}
                     </div>
 
                 </div>

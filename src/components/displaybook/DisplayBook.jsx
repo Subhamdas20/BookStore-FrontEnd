@@ -11,14 +11,15 @@ import Snackbar from '@mui/material/Snackbar';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useSelector, useDispatch } from 'react-redux'
-import { getbooks, getCartItem } from '../../store/actions';
+import { getbooks, getCartItem,getwishlistItem } from '../../store/actions';
 
 function DisplayBook(props) {
     const [msg, setMsg] = React.useState()
     React.useEffect(() => {
-        props.getwishlist()
+      
         getBooksData()
         getCartData()
+        getwishlistData()
     }, [])
     const dispatch = useDispatch()
     const getBooksData = async () => {
@@ -32,10 +33,15 @@ function DisplayBook(props) {
             dispatch(getCartItem(res.data.data))
         }).catch(()=>{})
     }
+    const getwishlistData = async () => {                        
+        wishlistService.getWishlist().then((res)=>{
+            dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
+        }).catch(()=>{})
+    }
 
     const mybooks = useSelector((state) => state.getbook)  //accessing state variables
     const getMyCart = useSelector((state) => state.getCartItem)
-
+    const getMyWishList = useSelector((state) => state.getwishlistItem)
     const addCart = (book) => {
         let data = {
             "_id": book._id
@@ -54,8 +60,9 @@ function DisplayBook(props) {
             "_id": book._id
         }
         wishlistService.addtoWishlist(data).then(() => {
-            props.getwishlist()
+            // props.getwishlist()
             setMsg(false)
+            getwishlistData()
         }).catch(() => {
 
         })
@@ -64,8 +71,8 @@ function DisplayBook(props) {
     }
     const buttons = (book) => {
         let butn = ''
-        const obj = (getMyCart.books).find((data) => data.bookName === book.bookName)
-        const wishl = (props.wishlist).find((data) => data.bookName === book.bookName)
+        const obj =getMyCart.books? (getMyCart.books).find((data) => data.bookName === book.bookName) : "   "
+        const wishl = getMyWishList.books ?(getMyWishList.books).find((data) => data.bookName === book.bookName) :""
 
         if (obj) {
             butn = <button className='already-cart'>

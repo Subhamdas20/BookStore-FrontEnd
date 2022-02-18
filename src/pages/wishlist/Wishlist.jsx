@@ -7,36 +7,13 @@ import { wishlistService } from '../../services/WishlistService'
 
 
 function Wishlist() {
-    const [quantity,setQuantity]=React.useState(0)
-    const [wishquantity,setWishquantity]=React.useState(0)
-    const[wishlist,setWishlist]= React.useState([])
-    const [cart, setCart] = React.useState([])
-
-    React.useEffect(()=>{
-        getCart()
-        getwishlist()
-     
-    },[])
-
-    const getwishlist =()=>{
-        wishlistService.getWishlist().then((result)=>{
-          setWishquantity(result.data.data.length)
-          setWishlist(result.data.data)
-      }).catch(()=>{
   
-      })
-  }
-  const getCart =()=>{
-    CartService.getcart().then((result)=>{
-        setQuantity(result.data.data.length)
-    }).catch(()=>{
 
-    })
-}
+ 
   return (
     <div>
-    <Header quantity={quantity} wishquantity={wishquantity}/>
-    <DisplayWishList wishlist={wishlist} getwishlist={getwishlist} getCart={getCart} wishquantity={wishquantity} />
+    <Header  />
+    <DisplayWishList  />
     <Footer/>
     </div>
   )

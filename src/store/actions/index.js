@@ -13,3 +13,9 @@ export function getCartItem(books){
         payload:books
     }
 }
+export function getwishlistItem(books){
+    return{
+        type:"GetwishlistItem",
+        payload:books
+    }
+}

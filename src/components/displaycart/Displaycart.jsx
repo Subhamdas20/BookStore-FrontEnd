@@ -15,7 +15,8 @@ import FormLabel from '@mui/material/FormLabel';
 import { Customerdetails } from '../../services/Customerdetails';
 import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux'
-import { getCartItem } from '../../store/actions';
+import { getCartItem ,getwishlistItem} from '../../store/actions';
+import { wishlistService } from '../../services/WishlistService';
 
 function Displaycart(props) {
     const navigate = useNavigate();
@@ -37,14 +38,19 @@ function Displaycart(props) {
 
     React.useEffect(() => {
         getCartData()
+        getwishlistData()
     }, [])
 
-    const getCartData = async () => {
+    const getCartData = async () => {                        
         CartService.getcart().then((res)=>{
-            dispatch(getCartItem(res.data.data))
+            dispatch(getCartItem(res.data.data))                 //setting initial state of redux
         }).catch(()=>{})
     }
-
+    const getwishlistData = async () => {                        
+        wishlistService.getWishlist().then((res)=>{
+            dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
+        }).catch(()=>{})
+    }
     const changebutton = () => {
         setOrderbutton(false)
     }

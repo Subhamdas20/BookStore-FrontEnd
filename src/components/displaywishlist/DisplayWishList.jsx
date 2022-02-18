@@ -7,17 +7,30 @@ import Wishlist from '../../pages/wishlist/Wishlist'
 import {stateContext} from '../../App'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { useSelector, useDispatch } from 'react-redux'
+import { getwishlistItem,getCartItem } from '../../store/actions'
 
 function DisplayWishList(props) {
-    // const {quantity,wishquantity,cart,wishlist}=React.useContext(stateContext)
-    // const [quantityy,setQuantity]=quantity
-    // const [wishquantityy,setWishquantity]=wishquantity
-    // const [carty, setCart]=cart
-    // const [wishlisty,setWishlist]=wishlist
-
+  
+    const dispatch = useDispatch()
+    const getMyWishList = useSelector((state) => state.getwishlistItem)
     React.useEffect(() => {
-        props.getwishlist()
+        getCartData()
+        getwishlistData()
     }, [])
+
+    const getwishlistData = async () => {                        
+        wishlistService.getWishlist().then((res)=>{
+            dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
+        }).catch(()=>{})
+    }
+    
+    const getCartData = async () => {                        
+        CartService.getcart().then((res)=>{
+            dispatch(getCartItem(res.data.data))                 //setting initial state of redux
+        }).catch(()=>{})
+    }
+
 
     const addtocart = (data) => {
         let data1 = {
@@ -28,12 +41,14 @@ function DisplayWishList(props) {
             props.getwishlist()
         }).catch(() => {
         })
+       
     }
     const remove = (book) => {
         let data = book.product_id;
         wishlistService.removeWishlist(data).then(() => {
-            props.getCart()
-            props.getwishlist()
+       
+            getCartData()
+            getwishlistData()
         }).catch(() => {
         })
     }
@@ -48,13 +63,14 @@ function DisplayWishList(props) {
                     My Wishlist
                 </div>
                 <div className='wishlist'>
-                <div className='wish-head'>
-                Wishlist({props.wishquantity})
+                {getMyWishList.books ? <div className='wish-head'>
+                 Wishlist({getMyWishList.books.length}) 
                 </div>
+                : ""}
                     
                     {
-                        props.wishlist ?
-                        props.wishlist.map((data) => {
+                        getMyWishList.books ?
+                        getMyWishList.books.map((data) => {
                                 return <div className='book-detail'>
                                     <div className='book-det'>
                                         <img className="img" src={bookimage} ></img>
