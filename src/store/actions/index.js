@@ -7,3 +7,9 @@ export function getbooks(books){
         payload:books
     }
 }
+export function getCartItem(books){
+    return{
+        type:"GetCartItem",
+        payload:books
+    }
+}

@@ -11,16 +11,14 @@ import Snackbar from '@mui/material/Snackbar';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useSelector, useDispatch } from 'react-redux'
-import { getbooks } from '../../store/actions';
+import { getbooks, getCartItem } from '../../store/actions';
 
 function DisplayBook(props) {
     const [msg, setMsg] = React.useState()
     React.useEffect(() => {
-        props.getCart()
-       
         props.getwishlist()
         getBooksData()
-
+        getCartData()
     }, [])
     const dispatch = useDispatch()
     const getBooksData = async () => {
@@ -29,19 +27,28 @@ function DisplayBook(props) {
         }).catch(() => {
         })
     }
-    const mybooks = useSelector((state) => state.getbook)
+    const getCartData = async () => {
+        CartService.getcart().then((res)=>{
+            dispatch(getCartItem(res.data.data))
+        }).catch(()=>{})
+    }
+
+    const mybooks = useSelector((state) => state.getbook)  //accessing state variables
+    const getMyCart = useSelector((state) => state.getCartItem)
 
     const addCart = (book) => {
         let data = {
             "_id": book._id
         }
         CartService.addtocart(data).then((result) => {
-            props.getCart()
+      
             setMsg(true)
+            getCartData()
         }).catch(() => {
         })
-        console.log(mybooks.books)
+        
     }
+
     const wishlist = (book) => {
         let data = {
             "_id": book._id
@@ -52,11 +59,12 @@ function DisplayBook(props) {
         }).catch(() => {
 
         })
+       
 
     }
     const buttons = (book) => {
         let butn = ''
-        const obj = (props.cart).find((data) => data.bookName === book.bookName)
+        const obj = (getMyCart.books).find((data) => data.bookName === book.bookName)
         const wishl = (props.wishlist).find((data) => data.bookName === book.bookName)
 
         if (obj) {
@@ -74,8 +82,6 @@ function DisplayBook(props) {
             butn = <div className='buttn-grp'>
 
                 <div onClick={() => { addCart(book) }}>
-
-                    {/* <div onClick={() => { wishlist(book) }} > */}
                     <React.Fragment>
                         <Button className='cart-btn'
                             sx={{ fontSize: "10px" }}
@@ -87,7 +93,7 @@ function DisplayBook(props) {
                             Add to Cart
                         </Button>
                     </React.Fragment>
-                    {/* </div> */}
+                
                 </div>
 
                 <div onClick={() => { wishlist(book) }} >

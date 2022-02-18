@@ -7,20 +7,10 @@ import { wishlistService } from '../../services/WishlistService';
 
 function Dashboard() {
 
-  const [quantity,setQuantity]=React.useState(0)
   const [wishquantity,setWishquantity]=React.useState(0)
-  const [cart ,setCart]=React.useState([])
+ 
   const [wishlist,setWishlist] = React.useState([])
   
-  const getCart =()=>{
-    CartService.getcart().then((result)=>{
-  
-        setQuantity(result.data.data.length)
-        setCart(result.data.data)
-    }).catch(()=>{
-
-    })
-}
 const getwishlist =()=>{
   wishlistService.getWishlist().then((result)=>{
     setWishlist(result.data.data)
@@ -30,11 +20,10 @@ const getwishlist =()=>{
 
 })
 }
-
   return <div>
     <div className='dashboard'>
-      <Header quantity={quantity} wishquantity={wishquantity}/>
-      <DisplayBook cart={cart} wishlist={wishlist} getCart={getCart} getwishlist={getwishlist}/>
+      <Header  wishquantity={wishquantity}/>
+      <DisplayBook  wishlist={wishlist}  getwishlist={getwishlist}/>
       <Footer/>
     </div>
   </div>;

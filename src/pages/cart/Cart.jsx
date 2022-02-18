@@ -12,17 +12,11 @@ function Cart() {
     const [cart, setCart] = React.useState([])
     const[wishlist,setWishlist]= React.useState([])
     React.useEffect(()=>{
-        getCart()
+
         getwishlist()
     },[])
 
-    const getCart =()=>{ 
-      CartService.getcart().then((result)=>{ 
-        setQuantity(result.data.data.length)
-        setCart(result.data.data)
-      }).catch(()=>{
-      })
-  }
+  
   const getwishlist =()=>{
     wishlistService.getWishlist().then((result)=>{
       setWishquantity(result.data.data.length)
@@ -33,8 +27,8 @@ function Cart() {
   
   return (
     <div>
-        <Header wishquantity={wishquantity} quantity={quantity}/>
-        <Displaycart cart={cart} quantity={quantity} getCart={getCart}/>
+        <Header wishquantity={wishquantity} />
+        <Displaycart />
         <Footer/>
     </div>
   )

@@ -7,8 +7,8 @@ import './Header.scss'
 import Badge from '@mui/material/Badge';
 import { useNavigate } from "react-router-dom";
 import { CartService } from '../../services/CartService';
-
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { useSelector, useDispatch } from 'react-redux'
 
 function Header(props) {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ function Header(props) {
     const wish = () =>{
         navigate('/wishlist')
     }
-
+    const getMyCart = useSelector((state) => state.getCartItem)
     return <>
         <div className='homePage'>
             <img className='image' src={education} alt='this is book logo' onClick={() => homepage()} />
@@ -52,9 +52,11 @@ function Header(props) {
             </div>
             <div className='details-cart' onClick={() => cart()}>
                 <div className=''>
-                    <Badge badgeContent={props.quantity} color="primary">
+               { getMyCart.books? <Badge badgeContent={getMyCart.books.length} color="primary">
                         <ShoppingCartOutlinedIcon htmlColor="white" />
-                    </Badge>
+                    </Badge> 
+                    : ""
+               }
                 </div>
                 <div className='cart'>
                     Cart

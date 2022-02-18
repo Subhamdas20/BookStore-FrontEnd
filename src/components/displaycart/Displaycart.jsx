@@ -14,8 +14,12 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Customerdetails } from '../../services/Customerdetails';
 import { useNavigate } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux'
+import { getCartItem } from '../../store/actions';
+
 function Displaycart(props) {
     const navigate = useNavigate();
+    const dispatch=useDispatch()
     // const [cart, setCart] = React.useState([])
     const [orderbutton, setOrderbutton] = React.useState(true)
     const [checkout, setCheckout] = React.useState(true)
@@ -29,9 +33,18 @@ function Displaycart(props) {
         address: ""
     })
     const [continuebutton, setcontinuebutton] = React.useState(true)
+    const getMyCart = useSelector((state) => state.getCartItem)
+
     React.useEffect(() => {
-        props.getCart()
+        getCartData()
     }, [])
+
+    const getCartData = async () => {
+        CartService.getcart().then((res)=>{
+            dispatch(getCartItem(res.data.data))
+        }).catch(()=>{})
+    }
+
     const changebutton = () => {
         setOrderbutton(false)
     }
@@ -43,10 +56,10 @@ function Displaycart(props) {
     const removebook = (books) => {
         let data = books.product_id;
         CartService.deletecart(data).then(() => {
-            props.getCart()
+            getCartData()
         }).catch(() => {
         })
-
+       
     }
     const subtractquantity = (book) => {
         let data = {
@@ -55,7 +68,7 @@ function Displaycart(props) {
             "quantity": book.quantity - 1
         }
         CartService.updatecart(data).then(() => {
-            props.getCart()
+            getCartData()
         }).catch(() => {
         })
     }
@@ -66,7 +79,7 @@ function Displaycart(props) {
             "quantity": book.quantity + 1
         }
         CartService.updatecart(data).then(() => {
-            props.getCart()
+            getCartData()
         }).catch(() => {
         })
     }
@@ -107,9 +120,11 @@ function Displaycart(props) {
             <div className='maincart-container'>
                 <h3 className='heading'>Home/ My cart</h3>
                 <div className='cart-container'>
-                    <h3 className='my-cart'>My Cart({props.quantity})</h3>
+                {getMyCart.books ? <h3 className='my-cart'>My Cart({getMyCart.books.length})</h3> : ""}
+                    
                     {
-                        props.cart.map((books) => {
+                        getMyCart.books ?
+                        getMyCart.books.map((books) => {
                             return <div >
                                 <div className='content-container'>
                                     <div className='image-cart'><img src={book} alt="image" style={{ height: "105px" }, { width: "100 px" }} /></div>
@@ -120,13 +135,14 @@ function Displaycart(props) {
                                     </div>
                                 </div>
                                 <div className='update-cart'>
-                                    <RemoveCircleOutlineOutlinedIcon htmlColor="grey" onClick={() => { subtractquantity(books) }} />
+                                    <RemoveCircleOutlineOutlinedIcon htmlColor="#DBDBDB" onClick={() => { subtractquantity(books) }} />
                                     <div className='cart-quantity'>{books.quantity}</div>
-                                    <AddCircleOutlineOutlinedIcon htmlColor="grey" onClick={() => { addquantity(books) }} />
+                                    <AddCircleOutlineOutlinedIcon htmlColor="#DBDBDB" onClick={() => { addquantity(books) }} />
                                     <div className='remove' onClick={() => removebook(books)}>Remove</div>
                                 </div>
                             </div>
                         })
+                        : ""
                     }
                     {
                         orderbutton ? <button className='button-order' onClick={() => { changebutton() }}>Place order</button>
