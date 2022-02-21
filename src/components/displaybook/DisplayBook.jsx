@@ -15,25 +15,27 @@ import { getbooks, getCartItem,getwishlistItem } from '../../store/actions';
 
 function DisplayBook(props) {
     const [msg, setMsg] = React.useState()
+
     React.useEffect(() => {
-      
-        getBooksData()
+        // getBooksData()
+        searchBook()
         getCartData()
         getwishlistData()
-    }, [])
+    }, [props.searchText])
+    
     const dispatch = useDispatch()
-    const getBooksData = async () => {
+    const getBooksData =  () => {
         ProductService.getAllproducts().then((res) => {
             dispatch(getbooks(res.data.data))
         }).catch(() => {
         })
     }
-    const getCartData = async () => {
+    const getCartData =  () => {
         CartService.getcart().then((res)=>{
             dispatch(getCartItem(res.data.data))
         }).catch(()=>{})
     }
-    const getwishlistData = async () => {                        
+    const getwishlistData =  () => {                        
         wishlistService.getWishlist().then((res)=>{
             dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
         }).catch(()=>{})
@@ -42,12 +44,13 @@ function DisplayBook(props) {
     const mybooks = useSelector((state) => state.getbook)  //accessing state variables
     const getMyCart = useSelector((state) => state.getCartItem)
     const getMyWishList = useSelector((state) => state.getwishlistItem)
+
     const addCart = (book) => {
+        
         let data = {
             "_id": book._id
         }
         CartService.addtocart(data).then((result) => {
-      
             setMsg(true)
             getCartData()
         }).catch(() => {
@@ -69,12 +72,23 @@ function DisplayBook(props) {
        
 
     }
+    const searchBook=()=>{
+        if(props.searchText){
+            let filterData= mybooks.books.filter(x=>x.bookName.toLowerCase().includes(props.searchText))
+            dispatch(getbooks(filterData))
+        }
+        else{
+            getBooksData()
+        }
+    }
+
     const buttons = (book) => {
         let butn = ''
-        const obj =getMyCart.books? (getMyCart.books).find((data) => data.bookName === book.bookName) : "   "
+        const obj =getMyCart.books? (getMyCart.books).find((data) => data.bookName === book.bookName) : ""
         const wishl = getMyWishList.books ?(getMyWishList.books).find((data) => data.bookName === book.bookName) :""
 
         if (obj) {
+            
             butn = <button className='already-cart'>
                 Added to cart
             </button>
@@ -138,8 +152,22 @@ function DisplayBook(props) {
     const handleClose = () => {
         setState({ ...state, open: false });
     };
-
-
+    const sortBook=(e)=>{
+        // console.log(e.target.value);
+        let val = e.target.value;
+        switch (val) {
+            case "lToH" : 
+            lToH();
+                break;
+        
+            default:
+                break;
+        }
+    }
+    const lToH=()=>{
+        let loh=mybooks.books.sort((a,b)=>a.price-b.price)
+        dispatch(getbooks(loh))
+    }
     return (
         <>
             <div className='book-containers'>
@@ -147,10 +175,9 @@ function DisplayBook(props) {
                 {
                     mybooks.books ? <p className="item"> ({mybooks.books.length})</p> : ""
                 }
-
-                <select name="sort by relevance" className="price">
+                <select name="sortBy" className="price" onChange={(e)=>sortBook(e)}>
                     <option value="">Sort by relevance</option>
-                    <option value="">Price:Low to high</option>
+                    <option value="lToH">Price:Low to high</option>
                     <option value="">Price:High to low</option>
                     <option value="">Newest arrivals</option>
                 </select>

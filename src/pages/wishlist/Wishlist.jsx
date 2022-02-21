@@ -8,8 +8,6 @@ import { wishlistService } from '../../services/WishlistService'
 
 function Wishlist() {
   
-
- 
   return (
     <div>
     <Header  />

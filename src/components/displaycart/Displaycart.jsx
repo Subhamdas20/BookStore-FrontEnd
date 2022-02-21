@@ -15,12 +15,12 @@ import FormLabel from '@mui/material/FormLabel';
 import { Customerdetails } from '../../services/Customerdetails';
 import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux'
-import { getCartItem ,getwishlistItem} from '../../store/actions';
+import { getCartItem, getwishlistItem } from '../../store/actions';
 import { wishlistService } from '../../services/WishlistService';
 
 function Displaycart(props) {
     const navigate = useNavigate();
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     // const [cart, setCart] = React.useState([])
     const [orderbutton, setOrderbutton] = React.useState(true)
     const [checkout, setCheckout] = React.useState(true)
@@ -41,15 +41,15 @@ function Displaycart(props) {
         getwishlistData()
     }, [])
 
-    const getCartData = async () => {                        
-        CartService.getcart().then((res)=>{
+    const getCartData =  () => {
+        CartService.getcart().then((res) => {
             dispatch(getCartItem(res.data.data))                 //setting initial state of redux
-        }).catch(()=>{})
+        }).catch(() => { })
     }
-    const getwishlistData = async () => {                        
-        wishlistService.getWishlist().then((res)=>{
+    const getwishlistData = () => {
+        wishlistService.getWishlist().then((res) => {
             dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
-        }).catch(()=>{})
+        }).catch(() => { })
     }
     const changebutton = () => {
         setOrderbutton(false)
@@ -65,7 +65,7 @@ function Displaycart(props) {
             getCartData()
         }).catch(() => {
         })
-       
+
     }
     const subtractquantity = (book) => {
         let data = {
@@ -105,7 +105,7 @@ function Displaycart(props) {
             "address": fields.address
         }
         Customerdetails.addcustomerdetails(data).then(() => {
-     
+            
         }).catch(() => {
 
         })
@@ -117,8 +117,11 @@ function Displaycart(props) {
     }
     const checkoutorder = () => {
         CartService.deleteallcart().then(() => {
+            getCartData()
+
         }).catch(() => {
         })
+        // console.log(getMyCart.books)
         navigate('/checkout')
     }
     return (
@@ -126,29 +129,29 @@ function Displaycart(props) {
             <div className='maincart-container'>
                 <h3 className='heading'>Home/ My cart</h3>
                 <div className='cart-container'>
-                {getMyCart.books ? <h3 className='my-cart'>My Cart({getMyCart.books.length})</h3> : ""}
-                    
+                    {getMyCart.books ? <h3 className='my-cart'>My Cart({getMyCart.books.length})</h3> : ""}
+
                     {
                         getMyCart.books ?
-                        getMyCart.books.map((books) => {
-                            return <div >
-                                <div className='content-container'>
-                                    <div className='image-cart'><img src={book} alt="image" style={{ height: "105px" }, { width: "100 px" }} /></div>
-                                    <div className='cart-description'>
-                                        <div className='book-nam'>{books.bookName}</div>
-                                        <div className='author-nam'>{books.author}</div>
-                                        <div className='pricetage'>{books.price}</div>
+                            getMyCart.books.map((books) => {
+                                return <div >
+                                    <div className='content-container'>
+                                        <div className='image-cart'><img src={book} alt="image" style={{ height: "105px" }, { width: "100 px" }} /></div>
+                                        <div className='cart-description'>
+                                            <div className='book-nam'>{books.bookName}</div>
+                                            <div className='author-nam'>{books.author}</div>
+                                            <div className='pricetage'>{books.price}</div>
+                                        </div>
+                                    </div>
+                                    <div className='update-cart'>
+                                        <RemoveCircleOutlineOutlinedIcon htmlColor="#DBDBDB" onClick={() => { subtractquantity(books) }} />
+                                        <div className='cart-quantity'>{books.quantity}</div>
+                                        <AddCircleOutlineOutlinedIcon htmlColor="#DBDBDB" onClick={() => { addquantity(books) }} />
+                                        <div className='remove' onClick={() => removebook(books)}>Remove</div>
                                     </div>
                                 </div>
-                                <div className='update-cart'>
-                                    <RemoveCircleOutlineOutlinedIcon htmlColor="#DBDBDB" onClick={() => { subtractquantity(books) }} />
-                                    <div className='cart-quantity'>{books.quantity}</div>
-                                    <AddCircleOutlineOutlinedIcon htmlColor="#DBDBDB" onClick={() => { addquantity(books) }} />
-                                    <div className='remove' onClick={() => removebook(books)}>Remove</div>
-                                </div>
-                            </div>
-                        })
-                        : ""
+                            })
+                            : ""
                     }
                     {
                         orderbutton ? <button className='button-order' onClick={() => { changebutton() }}>Place order</button>
@@ -230,20 +233,20 @@ function Displaycart(props) {
                         <div className='order-details'>
                             <div className='inside-orderdetails'>Order Summary</div>
                             {
-                                props.cart.map((books) => {
-                                    return <div >
-                                        <div className='content-containers'>
-                                            <div className='image-carts'><img src={book} alt="image" style={{ height: "105px" }, { width: "100 px" }} /></div>
-                                            <div className='cart-descriptions'>
-                                                <div className='book-nams'>{books.bookName}</div>
-                                                <div className='author-nams'>{books.author}</div>
-                                                <div className='pricetages'>{books.price}</div>
+                                getMyCart.books ?
+                                    getMyCart.books.map((books) => {
+                                        return <div >
+                                            <div className='content-containers'>
+                                                <div className='image-carts'><img src={book} alt="image" style={{ height: "105px" }, { width: "100 px" }} /></div>
+                                                <div className='cart-descriptions'>
+                                                    <div className='book-nams'>{books.bookName}</div>
+                                                    <div className='author-nams'>{books.author}</div>
+                                                    <div className='pricetages'>{books.price}</div>
+                                                </div>
                                             </div>
-
                                         </div>
-
-                                    </div>
-                                })
+                                    })
+                                    : ""
 
                             }
                             <button className='checkout-button' onClick={() => checkoutorder()}>checkout</button>

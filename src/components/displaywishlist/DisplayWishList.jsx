@@ -19,13 +19,13 @@ function DisplayWishList(props) {
         getwishlistData()
     }, [])
 
-    const getwishlistData = async () => {                        
+    const getwishlistData =  () => {                        
         wishlistService.getWishlist().then((res)=>{
             dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
         }).catch(()=>{})
     }
     
-    const getCartData = async () => {                        
+    const getCartData =  () => {                        
         CartService.getcart().then((res)=>{
             dispatch(getCartItem(res.data.data))                 //setting initial state of redux
         }).catch(()=>{})
@@ -37,8 +37,6 @@ function DisplayWishList(props) {
             "_id": data.product_id
         }
         CartService.addtocart(data1).then((result) => {
-            props.getCart()
-            props.getwishlist()
         }).catch(() => {
         })
        
@@ -46,7 +44,6 @@ function DisplayWishList(props) {
     const remove = (book) => {
         let data = book.product_id;
         wishlistService.removeWishlist(data).then(() => {
-       
             getCartData()
             getwishlistData()
         }).catch(() => {

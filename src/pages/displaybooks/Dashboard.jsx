@@ -2,15 +2,28 @@ import React from 'react';
 import DisplayBook from '../../components/displaybook/DisplayBook';
 import Footer from '../../components/footer/Footer';
 import Header from '../../components/header/Header';
-import { CartService } from '../../services/CartService';
-import { wishlistService } from '../../services/WishlistService';
 
 function Dashboard() {
 
+//   const [search,setSearch] = React.useState({
+//     search:""
+// })
+// const searchInput =(e)=>{
+//     setSearch((previousstate)=>{
+//         return{...previousstate,[e.target.name]:e.target.value}
+//     })
+//     console.log(search)
+  
+// }
+const [searchText,setSearchText]=React.useState("")
+
+const search=(value)=>{
+  setSearchText(value)
+}
   return <div>
     <div className='dashboard'>
-      <Header  />
-      <DisplayBook   />
+      <Header search={search} />
+      <DisplayBook searchText={searchText}  />
       <Footer/>
     </div>
   </div>;

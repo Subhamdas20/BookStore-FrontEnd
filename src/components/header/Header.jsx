@@ -24,13 +24,27 @@ function Header(props) {
     }
     const getMyCart = useSelector((state) => state.getCartItem)
     const getMyWishList = useSelector((state) => state.getwishlistItem)
+
+    const [search,setSearch] = React.useState({
+        search:""
+    })
+    const searchInput =(e)=>{
+        // setSearch((previousstate)=>{
+        //             return{...previousstate,[e.target.name]:e.target.value}
+        //         })
+        // console.log(e.target.value)
+        props.search(e.target.value)
+
+      
+    }
+  
     return <>
         <div className='homePage'>
             <img className='image' src={education} alt='this is book logo' onClick={() => homepage()} />
             <p className='imagetitle' onClick={() => homepage()} >Bookstore</p>
             <div className='searchbar'>
                 <SearchOutlinedIcon htmlColor="grey" />
-                <input type='search' className='search' placeholder='Search...'></input>
+                <input type='search'  name="search" className='search' placeholder='Search...'  onChange={(e)=>searchInput(e)} ></input>
             </div>
             <div className='details'>
                 <div className='icon'>

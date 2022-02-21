@@ -36,10 +36,6 @@ function Login() {
             UserService.login(data).then((data)=>{
             localStorage.setItem("name" ,data.data.data.result.fullname )
             localStorage.setItem("token",data.data.data.token)
-
-
-
-
             navigate('/dashboard')
             }).catch((err)=>{
             })
