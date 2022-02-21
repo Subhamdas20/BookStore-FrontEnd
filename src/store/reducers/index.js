@@ -1,11 +1,11 @@
-import   {getbook,getCartItem,getwishlistItem}  from "./books";
+import   {getbook,getCartItem,getwishlistItems}  from "./books";
 import {combineReducers} from "redux";
 
 
 const rootReducer = combineReducers({
     getbook,
     getCartItem,
-    getwishlistItem,
+    getwishlistItems,
 });
 
 export default rootReducer;

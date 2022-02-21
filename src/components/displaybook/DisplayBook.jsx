@@ -35,7 +35,7 @@ function DisplayBook(props) {
             dispatch(getCartItem(res.data.data))
         }).catch(()=>{})
     }
-    const getwishlistData =  () => {                        
+    const getwishlistData =() => {                        
         wishlistService.getWishlist().then((res)=>{
             dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
         }).catch(()=>{})
@@ -43,10 +43,10 @@ function DisplayBook(props) {
 
     const mybooks = useSelector((state) => state.getbook)  //accessing state variables
     const getMyCart = useSelector((state) => state.getCartItem)
-    const getMyWishList = useSelector((state) => state.getwishlistItem)
+    const getMyWishList = useSelector((state) => state.getwishlistItems)
 
     const addCart = (book) => {
-        
+        console.log(getMyWishList)
         let data = {
             "_id": book._id
         }
@@ -63,7 +63,7 @@ function DisplayBook(props) {
             "_id": book._id
         }
         wishlistService.addtoWishlist(data).then(() => {
-            // props.getwishlist()
+            
             setMsg(false)
             getwishlistData()
         }).catch(() => {
@@ -159,7 +159,13 @@ function DisplayBook(props) {
             case "lToH" : 
             lToH();
                 break;
-        
+            case "AtoZ":
+                AtoZ()
+                break;
+            case "HToL" :
+                hTOl()
+            break;
+
             default:
                 break;
         }
@@ -167,6 +173,15 @@ function DisplayBook(props) {
     const lToH=()=>{
         let loh=mybooks.books.sort((a,b)=>a.price-b.price)
         dispatch(getbooks(loh))
+    }
+    const AtoZ=()=>{
+        let aToz=mybooks.books.sort((a, b) =>a.bookName.localeCompare(b.bookName));
+        console.log(aToz);
+        dispatch(getbooks(aToz))
+    }
+    const hTOl=()=>{
+        let htol=mybooks.books.sort((a,b)=>a.price-b.price).reverse();
+        dispatch(getbooks(htol))
     }
     return (
         <>
@@ -176,9 +191,9 @@ function DisplayBook(props) {
                     mybooks.books ? <p className="item"> ({mybooks.books.length})</p> : ""
                 }
                 <select name="sortBy" className="price" onChange={(e)=>sortBook(e)}>
-                    <option value="">Sort by relevance</option>
+                    <option value="AtoZ">Sort by relevance</option>
                     <option value="lToH">Price:Low to high</option>
-                    <option value="">Price:High to low</option>
+                    <option value="HToL">Price:High to low</option>
                     <option value="">Newest arrivals</option>
                 </select>
             </div>

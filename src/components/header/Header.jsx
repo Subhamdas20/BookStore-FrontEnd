@@ -23,19 +23,14 @@ function Header(props) {
         navigate('/wishlist')
     }
     const getMyCart = useSelector((state) => state.getCartItem)
-    const getMyWishList = useSelector((state) => state.getwishlistItem)
+    const getMyWishList = useSelector((state) => state.getwishlistItems)
 
     const [search,setSearch] = React.useState({
         search:""
     })
     const searchInput =(e)=>{
-        // setSearch((previousstate)=>{
-        //             return{...previousstate,[e.target.name]:e.target.value}
-        //         })
-        // console.log(e.target.value)
         props.search(e.target.value)
 
-      
     }
   
     return <>

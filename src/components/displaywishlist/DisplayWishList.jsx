@@ -13,10 +13,11 @@ import { getwishlistItem,getCartItem } from '../../store/actions'
 function DisplayWishList(props) {
   
     const dispatch = useDispatch()
-    const getMyWishList = useSelector((state) => state.getwishlistItem)
+    const getMyWishList = useSelector((state) => state.getwishlistItems)
     React.useEffect(() => {
         getCartData()
         getwishlistData()
+        console.log(getMyWishList)
     }, [])
 
     const getwishlistData =  () => {                        

@@ -4,17 +4,6 @@ import Footer from '../../components/footer/Footer';
 import Header from '../../components/header/Header';
 
 function Dashboard() {
-
-//   const [search,setSearch] = React.useState({
-//     search:""
-// })
-// const searchInput =(e)=>{
-//     setSearch((previousstate)=>{
-//         return{...previousstate,[e.target.name]:e.target.value}
-//     })
-//     console.log(search)
-  
-// }
 const [searchText,setSearchText]=React.useState("")
 
 const search=(value)=>{

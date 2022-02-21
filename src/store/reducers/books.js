@@ -17,9 +17,9 @@ export const getCartItem =(state = [],action)=>{
     }
 }
 
-export const getwishlistItem =(state = [],action)=>{
+export const getwishlistItems =(state = [],action)=>{
     switch(action.type){
-        case "GetwishlistItem   " : return {...state,books : action.payload}
+        case "GetwishlistItem" : return {...state,books : action.payload}
         default : return state;
         break;
     }
