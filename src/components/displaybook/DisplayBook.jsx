@@ -7,43 +7,83 @@ import { wishlistService } from '../../services/WishlistService';
 import { buttonClasses, getButtonBaseUtilityClass } from '@mui/material';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-
 import Pagination from '@mui/material/Pagination';
+
 import Stack from '@mui/material/Stack';
 import { useSelector, useDispatch } from 'react-redux'
-import { getbooks, getCartItem,getwishlistItem } from '../../store/actions';
+import { getbooks, getCartItem, getwishlistItem } from '../../store/actions';
+import { useNavigate } from "react-router-dom";
+import usePagination from '../pagination/usePagination';
+
+
 
 function DisplayBook(props) {
-    const [msg, setMsg] = React.useState()
+    
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const [page, setPage] = React.useState(1); 
+    const [msg, setMsg] = React.useState('')
+    const mybooks = useSelector((state) => state.getbook)
+    const getMyCart = useSelector((state) => state.getCartItem)
+    const getMyWishList = useSelector((state) => state.getwishlistItems)
+    const PER_PAGE = 7;
+  
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+
+    const { vertical, horizontal, open } = state;
+ 
 
     React.useEffect(() => {
-        // getBooksData()
-        searchBook()
+        // console.log(getMyCart,mybooks)
+        getBooksData()
+
+        // searchBook()
         getCartData()
         getwishlistData()
-    }, [props.searchText])
-    
-    const dispatch = useDispatch()
-    const getBooksData =  () => {
+
+        if (!localStorage.getItem("token")) {
+            navigate('/')
+        }
+    }, [dispatch,props.searchText])
+
+   
+     
+
+
+    const getBooksData = () => {
+        // console.log("bookdata");
         ProductService.getAllproducts().then((res) => {
-            dispatch(getbooks(res.data.data))
+            if (props.searchText) {
+                let filterData = res.data.data.filter(x => x.bookName.toLowerCase().includes(props.searchText.toLowerCase()))
+                dispatch(getbooks(filterData))
+            }
+            else {
+                // getBooksData()
+                dispatch(getbooks(res.data.data))
+            }
+            // dispatch(getbooks(res.data.data))
         }).catch(() => {
         })
     }
-    const getCartData =  () => {
-        CartService.getcart().then((res)=>{
+    const getCartData = () => {
+        // console.log("cartdata");
+        CartService.getcart().then((res) => {
             dispatch(getCartItem(res.data.data))
-        }).catch(()=>{})
+        }).catch(() => { })
     }
-    const getwishlistData =() => {                        
-        wishlistService.getWishlist().then((res)=>{
+    const getwishlistData = () => {
+        // console.log("wishdata");
+        wishlistService.getWishlist().then((res) => {
             dispatch(getwishlistItem(res.data.data))                 //setting initial state of redux
-        }).catch(()=>{})
+        }).catch(() => { })
     }
 
-    const mybooks = useSelector((state) => state.getbook)  //accessing state variables
-    const getMyCart = useSelector((state) => state.getCartItem)
-    const getMyWishList = useSelector((state) => state.getwishlistItems)
+   // const mybooks = useSelector((state) => state.getbook)  //accessing state variables
+
 
     const addCart = (book) => {
         console.log(getMyWishList)
@@ -55,7 +95,7 @@ function DisplayBook(props) {
             getCartData()
         }).catch(() => {
         })
-        
+
     }
 
     const wishlist = (book) => {
@@ -63,32 +103,24 @@ function DisplayBook(props) {
             "_id": book._id
         }
         wishlistService.addtoWishlist(data).then(() => {
-            
+
             setMsg(false)
             getwishlistData()
         }).catch(() => {
 
         })
-       
+
 
     }
-    const searchBook=()=>{
-        if(props.searchText){
-            let filterData= mybooks.books.filter(x=>x.bookName.toLowerCase().includes(props.searchText))
-            dispatch(getbooks(filterData))
-        }
-        else{
-            getBooksData()
-        }
-    }
-
+   
     const buttons = (book) => {
+        console.log("btn")
         let butn = ''
-        const obj =getMyCart.books? (getMyCart.books).find((data) => data.bookName === book.bookName) : ""
-        const wishl = getMyWishList.books ?(getMyWishList.books).find((data) => data.bookName === book.bookName) :""
+        const obj = getMyCart.books ? (getMyCart.books).find((data) => data.bookName === book.bookName) : ""
+        const wishl = getMyWishList.books ? (getMyWishList.books).find((data) => data.bookName === book.bookName) : ""
 
         if (obj) {
-            
+
             butn = <button className='already-cart'>
                 Added to cart
             </button>
@@ -106,24 +138,25 @@ function DisplayBook(props) {
                     <React.Fragment>
                         <Button className='cart-btn'
                             sx={{ fontSize: "10px" }}
-                            onClick={handleClick({
-                                vertical: 'bottom',
-                                horizontal: 'right'
-                            })}
+                            // onClick={handleClick({
+                            //     vertical: 'bottom',
+                            //     horizontal: 'right'
+                            // }
+                            // )}
                         >
                             Add to Cart
                         </Button>
                     </React.Fragment>
-                
+
                 </div>
 
                 <div onClick={() => { wishlist(book) }} >
                     <React.Fragment>
                         <Button className='wishlist'
-                            onClick={handleClick({
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            })}
+                            // onClick={handleClick({
+                            //     vertical: 'bottom',
+                            //     horizontal: 'right',
+                            // })}
                         >
                             WISHLIST
                         </Button>
@@ -137,13 +170,7 @@ function DisplayBook(props) {
         return butn
     }
 
-    const [state, setState] = React.useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'center',
-    });
-
-    const { vertical, horizontal, open } = state;
+    
 
     const handleClick = (newState) => () => {
         setState({ open: true, ...newState });
@@ -152,37 +179,51 @@ function DisplayBook(props) {
     const handleClose = () => {
         setState({ ...state, open: false });
     };
-    const sortBook=(e)=>{
-        // console.log(e.target.value);
+    const sortBook = (e) => {
+        console.log(e.target.value);
         let val = e.target.value;
         switch (val) {
-            case "lToH" : 
-            lToH();
+            case "lToH":
+                lToH();
                 break;
             case "AtoZ":
                 AtoZ()
                 break;
-            case "HToL" :
+            case "HToL":
                 hTOl()
-            break;
+                break;
 
             default:
                 break;
         }
     }
-    const lToH=()=>{
-        let loh=mybooks.books.sort((a,b)=>a.price-b.price)
+    const lToH = () => {
+        let loh = mybooks.books.sort((a, b) => a.price - b.price)
         dispatch(getbooks(loh))
     }
-    const AtoZ=()=>{
-        let aToz=mybooks.books.sort((a, b) =>a.bookName.localeCompare(b.bookName));
+    const AtoZ = () => {
+        let aToz = mybooks.books.sort((a, b) => a.bookName.localeCompare(b.bookName));
         console.log(aToz);
         dispatch(getbooks(aToz))
     }
-    const hTOl=()=>{
-        let htol=mybooks.books.sort((a,b)=>a.price-b.price).reverse();
+    const hTOl = () => {
+        let htol = mybooks.books.sort((a, b) => a.price - b.price).reverse();
         dispatch(getbooks(htol))
     }
+
+  
+    
+
+    var booklength=mybooks.books?mybooks.books : 0;
+    const count = Math.ceil(booklength.length / PER_PAGE);
+    const _DATA = usePagination(booklength , PER_PAGE);
+
+    const handleChange = (e, p) => {
+        setPage(p);
+        _DATA.jump(p);
+      };
+
+      
     return (
         <>
             <div className='book-containers'>
@@ -190,7 +231,7 @@ function DisplayBook(props) {
                 {
                     mybooks.books ? <p className="item"> ({mybooks.books.length})</p> : ""
                 }
-                <select name="sortBy" className="price" onChange={(e)=>sortBook(e)}>
+                <select name="sortBy" className="price" onChange={(e) => sortBook(e)}>
                     <option value="AtoZ">Sort by relevance</option>
                     <option value="lToH">Price:Low to high</option>
                     <option value="HToL">Price:High to low</option>
@@ -200,8 +241,8 @@ function DisplayBook(props) {
 
             <div className='map-containers'>
                 {
-                    mybooks.books ?
-                        mybooks.books.map((book, index) => {
+                   
+                        _DATA.currentData() ? _DATA.currentData().map((book, index) => {
                             return <div className='books-display' >
                                 <div className="image-display" >
                                     <div >
@@ -238,17 +279,21 @@ function DisplayBook(props) {
                 <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     message={msg ? "Added to Cart" : "Added to Wishlist"}
                     key={vertical + horizontal}
                 />
-            </div>
-            <div className='paginationg'>
-                <Stack spacing={2}>
-                    <Pagination count={10} />
-                </Stack>
-            </div>
-        </>);
+                
+                </div>
+                <Pagination
+                    count={count}
+                    size="large"
+                    page={page}
+                    variant="outlined"
+                    shape="rounded"
+                    onChange={handleChange}
+                />
+            </>);
 }
 
-export default DisplayBook;
+            export default DisplayBook;

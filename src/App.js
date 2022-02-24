@@ -13,6 +13,7 @@ import Dashboard from "./pages/displaybooks/Dashboard";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
 import Wishlist from "./pages/wishlist/Wishlist";
+import ProtectedRoute from "./components/protectedroute/ProtectedRoute";
 
 
 const wishlistContext = React.createContext();
@@ -26,10 +27,15 @@ function App() {
     <Router>
     <Routes>
       <Route exact path="/" element={<Mainpage/>} />
-      <Route path="/dashboard" element={<Dashboard/>} />
-      <Route path="/cart" element={<Cart/>} />
-      <Route path="/checkout" element={<Checkout/>} />
-      <Route path="/wishlist" element={<Wishlist/>} />
+      <Route  path="/dashboard" element={<Dashboard/>} />
+      <Route exact path="/cart" element={<Cart/>} />
+      <Route exact path="/checkout" element={<Checkout/>} />
+      <Route exact path="/wishlist" element={<Wishlist/>} />
+{/* 
+      <ProtectedRoute  path="/dashboard" element={<Dashboard/>} />
+      <ProtectedRoute exact path="/cart" element={<Cart/>} />
+      <ProtectedRoute exact path="/checkout" element={<Checkout/>} />
+      <ProtectedRoute exact path="/wishlist" element={<Wishlist/>} /> */}
       
       </Routes>
     </Router>
